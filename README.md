@@ -1,10 +1,13 @@
 
-
 # 🐉 Z-COCKPIT | Ultimate Dragon Ball Intelligence Interface
+
+[](https://expo.dev/)
+[](https://reactnavigation.org/)
+[](https://opensource.org/licenses/MIT)
 
 **Z-COCKPIT** is a high-performance, tactical mobile application built with **React Native Expo SDK 55**. It serves as a comprehensive intelligence database for the Dragon Ball universe, featuring a cinematic "Scouter" UI, real-time Spanish-to-English translation, and advanced celestial mapping.
 
-Developed with a strict focus on **React Navigation** (bypassing Expo Router) for precise routing control and a **Glassmorphic** design language.
+Developed with **React Navigation** for precise routing control and a **Glassmorphic** tactical design language.
 
 -----
 
@@ -21,13 +24,15 @@ Developed with a strict focus on **React Navigation** (bypassing Expo Router) fo
 
 ## 🛠️ Tech Stack & Dependencies
 
-  * **Framework:** Expo SDK 55
-  * **Navigation:** `@react-navigation/native` (Stack & Bottom Tabs)
-  * **Styling:** Custom StyleSheet with Glassmorphism principles.
-  * **Icons:** `@expo/vector-icons` (MaterialIcons)
-  * **Fonts:** Space Grotesk & Plus Jakarta Sans
-  * **Visuals:** `expo-linear-gradient`
-  * **API:** [Dragon Ball API](https://www.google.com/search?q=https://dragonball-api.com/) & MyMemory Translation API
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | Expo SDK 55 (React Native) |
+| **Navigation** | `@react-navigation/native` ( Bottom Tabs) |
+| **Styling** | Custom StyleSheet with Glassmorphism principles & Shimmer Loading UI |
+| **Icons** | `@expo/vector-icons` (MaterialIcons & Lucide) |
+| **Fonts** | Space Grotesk (Technical) & Plus Jakarta Sans (Body) |
+| **Visuals** | `expo-linear-gradient` |
+| **API** | [Dragon Ball API](https://www.google.com/search?q=https://dragonball-api.com/) & MyMemory Translation API |
 
 -----
 
@@ -36,8 +41,8 @@ Developed with a strict focus on **React Navigation** (bypassing Expo Router) fo
 ### 1\. Clone the Repository
 
 ```bash
-git clone https://github.com/undersolved/DragonBallApp.git
-cd DragonBallApp
+git clone https://github.com/undersolved/Dragon-Cockpit.git
+cd Dragon-Cockpit
 ```
 
 ### 2\. Install Dependencies
@@ -48,13 +53,13 @@ npm install
 
 ### 3\. Ensure SDK 55 Compatibility
 
-If you are upgrading an existing project, run the Expo fix command to align all peer dependencies:
+If you are upgrading an existing project or environment, run:
 
 ```bash
 npx expo install --fix
 ```
 
-### 4\. Required Fonts & UI Libraries
+### 4\. Required UI Libraries
 
 ```bash
 npx expo install \
@@ -63,7 +68,8 @@ npx expo install \
   expo-font \
   expo-linear-gradient \
   react-native-safe-area-context \
-  react-native-screens
+  react-native-screens \
+  react-native-gesture-handler
 ```
 
 ### 5\. Launch the Cockpit
@@ -72,92 +78,49 @@ npx expo install \
 npx expo start
 ```
 
-*Run on iOS Simulator, Android Emulator, or physical devices via Expo Go.*
+*Scan the QR code with the **Expo Go** app on Android or iOS.*
 
 -----
 
 ## 📂 Project Structure
 
 ```text
-├── App.js                      # Entry point, Font loading, Safe Area provider
+├── App.js                  # Entry point & Font loading
 ├── src/
 │   ├── api/
-│   │   ├── dragonball.js       # Consolidates all Character & Planet endpoints
-│   │   └── translate.js        # Logic for chunked Spanish-to-English translation
+│   │   ├── dragonball.js   # API endpoints for Characters & Planets
+│   │   └── translate.js    # Spanish-to-English translation logic
 │   ├── theme/
-│   │   └── colors.js           # Centralized Z-COCKPIT hex color palette
+│   │   └── colors.js       # Centralized Z-COCKPIT palette
 │   ├── navigation/
-│   │   └── AppNavigator.js     # React Navigation (Stack + Tab) configuration
+│   │   └── AppNavigator.js # Stack + Tab configuration
 │   ├── components/
-│   │   ├── GlassCard.js        # Frosted glass wrapper with Ki-glow shadows
-│   │   └── CharacterCard.js    # Optimized scouter card with 'contain' image fit
+│   │   ├── GlassCard.js    # Frosted glass UI wrapper
+│   │   └── CharacterCard.js# Optimized scouter card
 │   └── screens/
-│       ├── SplashScreen.js     # Cinematic animated entry
-│       ├── HomeScreen.js       # Global Roster with Search
-│       ├── TypesScreen.js      # Genetic Classification Grid
-│       ├── PlanetsScreen.js    # Cosmos Directory Grid
-│       ├── FilteredList.js     # Universal Scouter for Races & Planets
-│       └── DetailScreen.js     # Full Character Dossier
+│       ├── SplashScreen.js # Cinematic entry animation
+│       ├── HomeScreen.js   # Global Roster with Search
+│       ├── TypesScreen.js  # Genetic Classification Grid
+│       ├── PlanetsScreen.js# Cosmos Directory
+│       └── DetailScreen.js # Full Character Dossier
 ```
-
------
-
-## 📑 API Integration Guide
-
-### Character Scouter
-
-  * **Base Fetch:** `GET /characters?page=1&limit=20`
-  * **Search by Name:** `GET /characters?name={query}`
-  * **Filter by Race:** `GET /characters?race={raceName}`
-
-### Cosmos Scouter
-
-  * **Planet List:** `GET /planets`
-  * **Planet Residents:** `GET /planets/{id}` → extract the `characters` array from the response.
 
 -----
 
 ## 🎨 UI/UX Design Philosophy
 
-The app utilizes a **Dark-Mode Tactical HUD** aesthetic inspired by Dragon Ball scouters.
+The app utilizes a **Dark-Mode Tactical HUD** aesthetic inspired by Dragon Ball scouters and Frieza Force technology.
 
-  * **Typography:**
-      * *Space Grotesk* – technical data, headers, and numeric / Ki-related stats.
-      * *Plus Jakarta Sans* – readable body text and character biographies.
-  * **Glassmorphism:**
-      * All UI elements sit on a semi-transparent background: `rgba(19, 19, 19, 0.7)`
-      * Subtle **1px border** around components to simulate a futuristic scouter lens.
-      * Ki-like glow effects around key elements via gradients and shadows.
-  * **Safe Area & Physical Devices:**
-      * Fully optimized for physical devices with notches and home bars using `useSafeAreaInsets`.
-      * Consistent padding and spacing for immersive, edge-to-edge layouts.
-
------
-
-## 🔀 Navigation Strategy
-
-Z-COCKPIT is built with a strict focus on **React Navigation** (bypassing Expo Router) for precise control over routing and transitions.
-
-  * **Root Stack Navigator:** `SplashScreen` → `MainTabs` → `DetailScreen`
-  * **Bottom Tab Navigator:**
-      * **Home:** Global Roster (characters list + search)
-      * **Types:** Genetic Registry (races grid)
-      * **Cosmos:** Planetary Archives (planets grid)
-
------
-
-## 🧪 Development Tips
-
-  * **Theming:** Centralize color changes in `src/theme/colors.js` to update the HUD across the entire app instantly.
-  * **Performance:** Use `FlatList` for rosters and grids with stable `keyExtractor` to maintain smooth scrolling on low-end "scouter" devices.
-  * **Testing:** Always test on both Android and iOS real devices to validate safe-area behavior and notch clearance.
+  * **Glassmorphism:** All UI elements sit on a semi-transparent background (`rgba(19, 19, 19, 0.7)`) with a subtle **1px border** to simulate a futuristic scouter lens.
+  * **Typography:** \* *Space Grotesk*: Used for technical data, headers, and Ki-related stats.
+      * *Plus Jakarta Sans*: Optimized for readable body text and character biographies.
+  * **Ki Glow:** Strategic use of gradients and shadows to simulate energy signatures around character cards.
 
 -----
 
 ## 👤 Author
 
-**Bhupendra S Hapawat**
-Lead Developer | Z-COCKPIT Systems
-Combat KI Intelligence Interface V4.0.2
+**Bhupendra Singh Hapawat** Lead Developer | Z-COCKPIT Systems  
+*MCA Final Semester | Full-Stack & AI Enthusiast*
 
 -----
