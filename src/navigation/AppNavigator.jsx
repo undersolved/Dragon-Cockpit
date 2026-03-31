@@ -11,7 +11,7 @@ import HomeScreen from "../screens/HomeScreen";
 import TypesScreen from "../screens/TypesScreen";
 import PlanetsScreen from "../screens/PlanetsScreen";
 import DetailScreen from "../screens/DetailScreen";
-import FilteredListScreen from "../screens/FilteredListScreen"; // ADD THIS
+import FilteredListScreen from "../screens/FilteredListScreen"; // isme sequence matter nahi karega
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -40,7 +40,7 @@ function MainTabs() {
           const icons = {
             Home: "home",
             Classification: "category",
-            Cosmos: "public",
+            Planets: "public",
           };
           return (
             <MaterialIcons name={icons[route.name]} size={26} color={color} />
@@ -55,7 +55,7 @@ function MainTabs() {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Classification" component={TypesScreen} />
-      <Tab.Screen name="Cosmos" component={PlanetsScreen} />
+      <Tab.Screen name="Planets" component={PlanetsScreen} />
     </Tab.Navigator>
   );
 }

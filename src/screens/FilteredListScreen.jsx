@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
 import {
@@ -15,19 +14,18 @@ import { MaterialIcons } from "@expo/vector-icons";
 import {
   getCharactersByRace,
   getCharactersByPlanetId,
-} from "../api/dragonball"; // Import the ID fetcher
+} from "../api/dragonball";
 import CharacterCard from "../components/CharacterCard";
+import { CardShimmer } from "../components/ShimmerLoader";
 import { COLORS } from "../theme/colors";
 
 export default function FilteredListScreen({ route, navigation }) {
-  // Destructure filterId from params
   const {
     filterType,
     filterValue,
     filterId,
     themeColor = COLORS.primary,
   } = route.params;
-
   const insets = useSafeAreaInsets();
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,34 +38,18 @@ export default function FilteredListScreen({ route, navigation }) {
     setLoading(true);
     try {
       let data = [];
-
       if (filterType === "planet") {
-        // Use the ID-based fetcher for Cosmos data
         data = await getCharactersByPlanetId(filterId);
       } else {
-        // Use the Name-based filter for Genetic data
         data = await getCharactersByRace(filterValue);
       }
-
       setCharacters(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error("Scouter Scan Error:", error);
       setCharacters([]);
     } finally {
       setLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color={themeColor} />
-        <Text style={[styles.loadingText, { color: themeColor }]}>
-          SCANNING {filterValue.toUpperCase()} FOR SIGNATURES...
-        </Text>
-      </View>
-    );
-  }
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
@@ -87,31 +69,37 @@ export default function FilteredListScreen({ route, navigation }) {
       </View>
 
       <FlatList
-        data={characters}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <CharacterCard
-            character={item}
-            glowColor={themeColor}
-            onPress={() =>
-              navigation.navigate("Detail", {
-                characterId: item.id,
-                glowColor: themeColor,
-              })
-            }
-          />
-        )}
+        data={loading ? [1, 2, 3] : characters}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) =>
+          loading ? (
+            <CardShimmer />
+          ) : (
+            <CharacterCard
+              character={item}
+              glowColor={themeColor}
+              onPress={() =>
+                navigation.navigate("Detail", {
+                  characterId: item.id,
+                  glowColor: themeColor,
+                })
+              }
+            />
+          )
+        }
         contentContainerStyle={[
           styles.listContent,
           { paddingBottom: insets.bottom + 120 },
         ]}
         ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <MaterialIcons name="radar" size={60} color={COLORS.textMuted} />
-            <Text style={styles.emptyText}>
-              NO POWER SIGNATURES DETECTED ON THIS PLANET.
-            </Text>
-          </View>
+          !loading && (
+            <View style={styles.emptyContainer}>
+              <MaterialIcons name="radar" size={60} color={COLORS.textMuted} />
+              <Text style={styles.emptyText}>
+                NO POWER SIGNATURES DETECTED.
+              </Text>
+            </View>
+          )
         }
         showsVerticalScrollIndicator={false}
       />
@@ -121,19 +109,6 @@ export default function FilteredListScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background },
-  centerContainer: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    fontFamily: "Jakarta_Bold",
-    fontSize: 10,
-    marginTop: 20,
-    letterSpacing: 2,
-    textAlign: "center",
-  },
   header: {
     flexDirection: "row",
     alignItems: "center",

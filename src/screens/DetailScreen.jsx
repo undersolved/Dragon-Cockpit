@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  ActivityIndicator,
   TouchableOpacity,
   Dimensions,
 } from "react-native";
@@ -15,6 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { getCharacterById } from "../api/dragonball";
 import { translateToEnglish } from "../api/translate";
 import GlassCard from "../components/GlassCard";
+import { DetailShimmer } from "../components/ShimmerLoader";
 import { COLORS } from "../theme/colors";
 
 const { height } = Dimensions.get("window");
@@ -27,6 +27,7 @@ export default function DetailScreen({ route, navigation }) {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const data = await getCharacterById(characterId);
       if (data) {
         setCharacter(data);
@@ -37,12 +38,7 @@ export default function DetailScreen({ route, navigation }) {
     })();
   }, [characterId]);
 
-  if (loading)
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
-      </View>
-    );
+  if (loading) return <DetailShimmer />;
 
   return (
     <View style={styles.container}>
@@ -96,12 +92,6 @@ export default function DetailScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background },
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: COLORS.background,
-  },
   hero: {
     height: height * 0.5,
     width: "100%",

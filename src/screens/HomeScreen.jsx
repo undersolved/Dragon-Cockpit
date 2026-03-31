@@ -4,10 +4,8 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  ActivityIndicator,
   TextInput,
   TouchableOpacity,
-  Keyboard,
 } from "react-native";
 import {
   SafeAreaView,
@@ -16,6 +14,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { getCharacters, searchCharacters } from "../api/dragonball";
 import CharacterCard from "../components/CharacterCard";
+import { CardShimmer } from "../components/ShimmerLoader";
 import { COLORS } from "../theme/colors";
 
 export default function HomeScreen({ navigation }) {
@@ -39,27 +38,33 @@ export default function HomeScreen({ navigation }) {
   };
 
   const handleSearch = async () => {
+    setLoading(true);
     const results = await searchCharacters(searchQuery);
     setCharacters(results);
+    setLoading(false);
   };
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <FlatList
-        data={characters}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item, index }) => (
-          <CharacterCard
-            character={item}
-            glowColor={index % 2 === 0 ? COLORS.primary : COLORS.secondary}
-            onPress={() =>
-              navigation.navigate("Detail", { characterId: item.id })
-            }
-          />
-        )}
+        data={loading ? [1, 2, 3] : characters}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) =>
+          loading ? (
+            <CardShimmer />
+          ) : (
+            <CharacterCard
+              character={item}
+              glowColor={index % 2 === 0 ? COLORS.primary : COLORS.secondary}
+              onPress={() =>
+                navigation.navigate("Detail", { characterId: item.id })
+              }
+            />
+          )
+        }
         ListHeaderComponent={
           <View style={styles.headerContainer}>
-            <Text style={styles.sectorText}>Terran Sector 01</Text>
+            <Text style={styles.sectorText}>All Sectors Initiated</Text>
             <Text style={styles.titleText}>
               GLOBAL <Text style={styles.titleItalic}>ROSTER</Text>
             </Text>
@@ -72,7 +77,7 @@ export default function HomeScreen({ navigation }) {
               />
               <TextInput
                 style={styles.searchInput}
-                placeholder="SCAN POWER SIGNATURES..."
+                placeholder="FIND YOUR ALTER-EGO..."
                 placeholderTextColor={COLORS.textMuted}
                 value={searchQuery}
                 onChangeText={setSearchQuery}

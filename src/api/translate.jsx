@@ -13,6 +13,8 @@ async function translateChunk(text) {
   }
 }
 
+// char input limit <500 hai, isme trial and error krna pdega
+
 function splitIntoChunks(text, maxLen = 490) {
   const chunks = [];
   let remaining = text.trim();
